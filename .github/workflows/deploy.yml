@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  ##########$################# Sesuaikan dengan branch yang ingin Anda pantau
+      - main  ################################$################# Sesuaikan dengan branch yang ingin Anda pantau
 
 jobs:
   deploy:
