@@ -25,7 +25,7 @@ jobs:
 
       - name: Deploy code to VPS
         run: |
-          ssh -i ~/.ssh/id_rsa -p $VPS_PORT $SSH_USERNAME@$VPS_IP_ADDRESS "cd /var/www/ && git pull"
+          ssh -i ~/.ssh/id_rsa -p $VPS_PORT $SSH_USERNAME@$VPS_IP_ADDRESS "cd ~/var/www/ && git pull"
         env:
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
           VPS_IP_ADDRESS: ${{ secrets.VPS_IP_ADDRESS }}
