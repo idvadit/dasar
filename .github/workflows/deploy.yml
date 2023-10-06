@@ -1,0 +1,32 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main  # Sesuaikan dengan branch yang ingin Anda pantau
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $VPS_IP_ADDRESS >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_IP_ADDRESS: ${{ secrets.VPS_IP_ADDRESS }}
+
+      - name: Deploy code to VPS
+        run: |
+          ssh -i ~/.ssh/id_rsa -p $VPS_PORT $SSH_USERNAME@$VPS_IP_ADDRESS "cd /var/www/ && git pull"
+        env:
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+          VPS_IP_ADDRESS: ${{ secrets.VPS_IP_ADDRESS }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
